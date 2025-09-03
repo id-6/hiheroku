@@ -967,4 +967,4 @@ async def main():
 
 if __name__ == "__main__":
     # Remove asyncio.run() and just call main()
-    await main()
+    asyncio.run(main())
