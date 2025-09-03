@@ -177,6 +177,8 @@ def use_code(code, user_id):
     }
     if str(user_id) not in codes_db["user_stats"]:
         codes_db["user_stats"][str(user_id)] = {"groups_created": 0, "last_activity": ""}
+    codes_db["user_stats"][str(user_id)]["groups_created"] += 0 # Initialize if not exists
+    codes_db["user_stats"][str(user_id)]["last_activity"] = datetime.now().isoformat()
     codes_db["codes"][code]["used"] = True
     codes_db["codes"][code]["used_by"] = user_id
     codes_db["codes"][code]["used_at"] = datetime.now().isoformat()
@@ -630,7 +632,7 @@ async def main():
     async def code_handler(event):
         user_id = event.sender_id
         # Ignore commands and admin messages
-        if event.text and event.text.startswith('/') or user_id == ADMIN_ID: # Added check for event.text
+        if event.text and event.text.startswith('/') or user_id == ADMIN_ID: # Added check for event.text and command check
             return
         has_access, _ = check_user_access(user_id)
         if has_access:
